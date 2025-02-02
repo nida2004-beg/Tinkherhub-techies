@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Upload</title>
+  <style>
+    /* Basic styling */
+    body {
+      font-family: Arial, sans-serif;
+      background:whitesmoke;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .upload-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .upload-button:hover {
+      background-color: #45a049;
+    }
+    .file-list {
+      margin-top: 20px;
+      list-style-type: none;
+      padding: 0;
+    }
+    .file-list li {
+      background-color: #e2e2e2;
+      padding: 5px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .file-list button {
+      background-color: #008CBA;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .file-list button:hover {
+      background-color: #007B9E;
+    }
+    #file-preview {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      width: 300px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Upload and Preview Files</h1>
+
+  <!-- File Upload Section -->
+  <button class="upload-button" onclick="uploadFile()">Upload File</button>
+
+  <!-- File Preview Section -->
+  <div id="file-preview"></div>
+
+  <!-- Display Uploaded Files List -->
+  <h2>Uploaded Files</h2>
+  <ul class="file-list" id="uploadedFilesList"></ul>
+
+  <script>
+    // Store uploaded files in an array
+    const uploadedFiles = [];
+
+    function uploadFile() {
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.accept = '*/*'; // Accept all file types
+      
+      fileInput.onchange = function() {
+        const file = fileInput.files[0];
+        
+        if (!file) {
+          alert("No file selected!");
+          return;
+        }
+
+        let fileInfo = `<strong>File Name:</strong> ${file.name} <br>
+                        <strong>File Size:</strong> ${(file.size / 1024).toFixed(2)} KB`;
+
+        let filePreview = `<div>${fileInfo}</div>`;
+        
+        // Update the list of uploaded files
+        uploadedFiles.push({ name: file.name, file: file });
+        updateFileList();
+
+        // Display preview based on file type
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            filePreview += `<img src="${event.target.result}" alt="File Preview" onclick="openFile('${event.target.result}')">`;
+            document.getElementById('file-preview').innerHTML = filePreview;
+          };
+          reader.readAsDataURL(file);
+        } else if (file.type === 'text/plain') {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            filePreview += `<pre>${event.target.result}</pre>`;
+            document.getElementById('file-preview').innerHTML = filePreview;
+          };
+          reader.readAsText(file);
+        } else {
+          // For other files, just provide a download link
+          filePreview += `<a href="${URL.createObjectURL(file)}" target="_blank">Open File</a>`;
+          document.getElementById('file-preview').innerHTML = filePreview;
+        }
+      };
+      
+      fileInput.click(); // Trigger the file input click event
+    }
+
+    // Function to update the displayed list of uploaded files
+    function updateFileList() {
+      const fileListElement = document.getElementById('uploadedFilesList');
+      fileListElement.innerHTML = ''; // Clear the existing list
+
+      uploadedFiles.forEach((fileObj) => {
+        const li = document.createElement('li');
+        li.textContent = fileObj.name;
+        
+        // Add Open File button
+        const openButton = document.createElement('button');
+        openButton.textContent = 'Open File';
+        openButton.onclick = function() {
+          openFile(URL.createObjectURL(fileObj.file)); // Open the file in a new tab
+        };
+        
+        li.appendChild(openButton);
+        fileListElement.appendChild(li);
+      });
+    }
+
+    // Open the file in a new tab (for images and other supported file types)
+    function openFile(fileSrc) {
+      const win = window.open(fileSrc, '_blank');
+      win.focus();
+    }
+  </script>
+</body>
+</html>

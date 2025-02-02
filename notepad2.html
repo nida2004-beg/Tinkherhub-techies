@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <style>
+    /* General reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Main container with background image */
+    .main {
+      width: 100%;
+      background: linear-gradient(to top, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.5) 50%), url(canva.jpg);
+      background-position: center;
+      background-size: cover;
+      height: 100vh;
+    }
+
+    /* Navbar styling */
+    .navbar {
+      display: flex;
+      padding: 0 10px;
+      max-width: 1200px;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0 auto;
+    }
+    .icon {
+      width: 200px;
+      height: 70px;
+    }
+    .logo {
+      color: hsl(136, 79%, 48%);
+      font-size: 35px;
+      font-family: Arial, sans-serif;
+      padding-left: 20px;
+      padding-top: 10px;
+    }
+    .menu {
+      width: 400px;
+      height: 70px;
+    }
+    .menu ul {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      list-style: none;
+    }
+    .menu ul li {
+      margin-left: 62px;
+      margin-top: 27px;
+      font-size: 14px;
+    }
+    .menu ul li a {
+      text-decoration: none;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      transition: 0.4s ease-in-out;
+    }
+    .menu ul li a:hover {
+      color: hsl(136, 79%, 48%);
+    }
+
+    /* Button container styling */
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      gap: 15px;
+    }
+
+    /* Common button styles */
+    .button, .button1, .button2 {
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    }
+    .button:hover, .button1:hover, .button2:hover {
+      background-color: #45a049;
+      transform: translateY(-5px);
+    }
+
+    /* Notepad container and textarea */
+    #notepadContainer {
+      display: none;
+      background-color: rgba(16, 15, 15, 0.9);
+      padding: 40px;
+      border-radius: 15px;
+      width: 80%;
+      max-width: 800px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+      margin: 20px auto;
+      text-align: left;
+    }
+    #notepad {
+      width: 100%;
+      height: 300px;
+      padding: 20px;
+      font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      background-color: #f7f7f7;
+      resize: none;
+      transition: all 0.3s ease;
+    }
+    #notepad:focus {
+      border-color: #4CAF50;
+      outline: none;
+      box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+    }
+
+    /* Close Button styling */
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: transparent;
+      border: none;
+      font-size: 20px;
+      color: #4CAF50;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .close-btn:hover {
+      color: red;
+      transform: rotate(90deg);
+    }
+
+    /* To-Do List */
+    #todo-list {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 20px;
+      color: white;
+    }
+    #todo-list li {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+    }
+    #todo-list li button {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #todo-list li button:hover {
+      background-color: darkred;
+    }
+
+    /* File preview */
+    #file-preview {
+      margin-top: 20px;
+      color: white;
+    }
+    #file-preview img {
+      max-width: 100%;
+      max-height: 300px;
+      margin-top: 10px;
+    }
+    #file-preview pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      background-color: #f4f4f4;
+      padding: 10px;
+      border-radius: 5px;
+      color: #333;
+    }
+    #file-preview a {
+      color: #4CAF50;
+      text-decoration: underline;
+      display: block;
+      margin-top: 10px;
+    }
+
+    /* Saved Notes Section */
+    #saved-notes {
+      margin-top: 30px;
+      color: rgb(238, 232, 232);
+    }
+    #saved-notes h3 {
+      text-align: center;
+    }
+    #saved-notes pre {
+      background-color: rgba(255, 255, 255, 0.7);
+      color: #333;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    #delete-note {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    #delete-note:hover {
+      background-color: darkred;
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <!-- Navbar Section -->
+    <div class="navbar">
+      <div class="icon">
+        <h2 class="logo">JouRnALhuB</h2>
+      </div>
+      <div class="menu">
+        <ul>
+          <li><a href="index.html">HOME</a></li>
+          <li><a href="#">ABOUT</a></li>
+          <li><a href="#">CONTACT</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Button Container (placed below the navbar) -->
+    <div class="button-container">
+      <button class="button2" onclick="showTodolist()">To-do List</button>
+      <button class="button1" onclick="uploadFile()"><a href="newfolder.html">Upload Files</a></button>
+      <button class="button" onclick="openNotepad()">Create Note</button>
+    </div>
+    
+    <!-- Notepad Container -->
+    <div id="notepadContainer">
+      <button class="close-btn" onclick="closeNotepad()">×</button>
+      <textarea id="notepad" placeholder="Write your notes here..."></textarea>
+      <div style="margin-top: 20px; text-align: center;">
+        <button class="button" onclick="saveNote()">Save</button>
+        <button class="button" onclick="closeNotepad()">Close</button>
+      </div>
+    </div>
+    
+    <!-- To-Do List Section -->
+    <div id="todo-container" style="display: none; color: white; text-align: center; margin-top: 20px;">
+      <h3>To-Do List</h3>
+      <input type="text" id="todo-input" placeholder="Add a new task" style="padding: 10px; width: 200px; margin: 10px;">
+      <button class="button" onclick="addTask()">Add Task</button>
+      <ul id="todo-list"></ul>
+    </div>
+
+    <!-- File Preview Section -->
+    <div id="file-preview"></div>
+
+    <!-- Saved Notes Section -->
+    <div id="saved-notes">
+      <h3>Saved Notes:</h3>
+      <pre id="saved-note-content"></pre>
+      <button id="delete-note" onclick="deleteNote()">Delete Note</button>
+    </div>
+
+    <script>
+      // Notepad functions
+      function openNotepad() {
+        document.getElementById('notepadContainer').style.display = 'block';
+      }
+      
+      function closeNotepad() {
+        document.getElementById('notepadContainer').style.display = 'none';
+      }
+      
+      function saveNote() {
+        let noteContent = document.getElementById('notepad').value;
+        localStorage.setItem('savedNote', noteContent);
+        alert('Note Saved!');
+        displaySavedNote();
+      }
+
+      // Function to display saved note
+      function displaySavedNote() {
+        const savedNote = localStorage.getItem('savedNote');
+        const savedNoteContent = document.getElementById('saved-note-content');
+        if (savedNote) {
+          savedNoteContent.textContent = savedNote;
+        } else {
+          savedNoteContent.textContent = 'No saved notes yet.';
+        }
+      }
+
+      // Function to delete saved note
+      function deleteNote() {
+        localStorage.removeItem('savedNote');
+        alert('Note Deleted!');
+        displaySavedNote();
+      }
+
+      // Display saved note when the page loads
+      window.onload = function() {
+        displaySavedNote();
+      };
+
+      // To-Do List functions
+      function showTodolist() {
+        document.getElementById('todo-container').style.display = 'block';
+      }
+
+      function addTask() {
+        const taskInput = document.getElementById('todo-input');
+        const taskText = taskInput.value.trim();
+        
+        if (taskText === "") {
+          alert("Please enter a task!");
+          return;
+        }
+
+        const todoList = document.getElementById('todo-list');
+        const newTask = document.createElement('li');
+        newTask.textContent = taskText;
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = "Delete";
+        deleteButton.onclick = function() {
+          todoList.removeChild(newTask);
+        };
+
+        newTask.appendChild(deleteButton);
+        todoList.appendChild(newTask);
+
+        taskInput.value = "";
+      }
+
+    
+    </script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Files Storage</title>
+  <style>
+    /* Same CSS styling you provided earlier */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: left;
+      width: 100%;
+      max-width: 1200px;
+      padding: 20px 20px;
+      background-color: #333;
+      color: white;
+    }
+    .navbar .logo {
+      font-size: 30px;
+      font-weight: bold;
+      color: hsl(136, 79%, 48%);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .navbar .menu ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+    .navbar .menu ul li {
+      margin-top: 20px;
+    }
+    .navbar .menu ul li a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      padding: 10px;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+    .navbar .menu ul li a:hover {
+      color: hsl(136, 79%, 48%);
+    }
+
+    /* Page content */
+    h1 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .folder {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
+      margin: 15px;
+      border-radius: 5px;
+      width: 200px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .folder:hover {
+      background-color: #45a049;
+    }
+
+    /* File upload form */
+    .upload-form {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .upload-form input[type="file"] {
+      margin: 10px 0;
+    }
+
+    .upload-form button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar Section -->
+  <div class="navbar">
+    <div class="logo">
+      JouRnALhuB
+    </div>
+    <div class="menu">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <h1>Choose a Folder to Upload Files</h1>
+
+  <!-- Folder Links with File Upload Forms -->
+  <div class="folder">
+    <h2>COA</h2>
+    <form class="upload-form" id="coa-form" enctype="multipart/form-data">
+      <input type="file" name="file" id="coa-file" required>
+      <button type="submit">Upload to COA</button>
+    </form>
+    <div id="coa-link"></div>
+  </div>
+
+  <div class="folder">
+    <h2>OS</h2>
+    <form class="upload-form" id="os-form" enctype="multipart/form-data">
+      <input type="file" name="file" id="os-file" required>
+      <button type="submit">Upload to OS</button>
+    </form>
+    <div id="os-link"></div>
+  </div>
+
+  <div class="folder">
+    <h2>GRAPH THEORY</h2>
+    <form class="upload-form" id="graph-form" enctype="multipart/form-data">
+      <input type="file" name="file" id="graph-file" required>
+      <button type="submit">Upload to GRAPH THEORY</button>
+    </form>
+    <div id="graph-link"></div>
+  </div>
+
+  <script>
+    async function uploadFile(formId, folder) {
+      const form = document.getElementById(formId);
+      const fileInput = form.querySelector('input[type="file"]');
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+      formData.append('folder', folder); // Send the folder name
+
+      const response = await fetch('http://localhost:5000/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      const linkContainer = document.getElementById(folder + '-link');
+      linkContainer.innerHTML = <a href="${data.file_url}" target="_blank">View Uploaded File</a>;
+    }
+
+    document.getElementById('coa-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      uploadFile('coa-form', 'COA');
+    });
+
+    document.getElementById('os-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      uploadFile('os-form', 'OS');
+    });
+
+    document.getElementById('graph-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      uploadFile('graph-form', 'GRAPH THEORIES');
+    });
+  </script>
+
+</body>
+</html>
