@@ -54,9 +54,11 @@ Visibility Options: Each journal can be marked as Public or Private.
 Journal Management: Users can view, edit, and remove their journal entries.
 File Upload: Option to upload files related to journals (e.g., images, documents).
 Social Media Login: Log in via social media platforms like Facebook, Google, Twitter, etc.
+
 Requirements
 Web Browser: Any modern browser (Google Chrome, Mozilla Firefox, Microsoft Edge, Safari).
 Internet Connection: Required to access the platform online.
+
 Technology Stack
 Frontend:
 HTML
@@ -64,21 +66,13 @@ CSS
 JavaScript (vanilla)
 Ionicons (for social media icons)
 JavaScript (Functionality)
+
 Login Function: Validates the login credentials and redirects to the journal creation page.
 Create Journal: Handles the creation and storage of journal entries in localStorage.
 Display Journals: Dynamically displays all saved journals in the journal list section.
 Delete Journal: Removes a journal entry from localStorage.
 Social Media Login (Ionicons)
 Social media login icons are displayed, but functionality for social media logins can be added later using respective SDKs (Facebook, Google, etc.).
-Future Enhancements
-User Authentication:
-Integrate a real user authentication system (using email/password or OAuth via social media).
-Backend Database:
-Replace localStorage with a database (e.g., MongoDB, MySQL) to store journal entries persistently.
-File Upload Handling:
-Implement file storage with the backend (e.g., save images, documents related to journals).
-Search and Filter:
-Add functionality for searching and filtering journals by title, date, or visibility.
 
 
 # Screenshots (Add at least 3)
